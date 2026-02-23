@@ -2,15 +2,13 @@ name: Update NEXT ID
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: "0 */6 * * *"
 
 jobs:
   update:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Update Discord Message
+      - name: Send Update
         env:
           BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
           CHANNEL_ID: ${{ secrets.CHANNEL_ID }}
@@ -18,26 +16,24 @@ jobs:
         run: |
           NOW=$(date +%s)
 
-          TEASER=$((NOW + 86400))
-          TRAILER=$((NOW + 259200))
-          KIT=$((NOW + 432000))
-          DROP=$((NOW + 604800))
+          TEASER=$((NOW+86400))
+          TRAILER=$((NOW+259200))
+          KIT=$((NOW+432000))
+          DROP=$((NOW+604800))
 
-          CONTENT=$(cat <<EOF
-**NEXT ID**
+          CONTENT="**NEXT ID**
 
 ID Teaser → <t:${TEASER}:F>
 ID Trailer → <t:${TRAILER}:F>
 ID Kit → <t:${KIT}:F>
 ID Drop → <t:${DROP}:F>
 
-NOTICE: Delays can and has happened, can go from 10 minutes to an hour.
-EOF
-)
+NOTICE: Delays can and has happened, can go from 10 minutes to an hour."
 
           curl -X PATCH \
-            -H "Authorization: Bot $BOT_TOKEN" \
-            -H "Content-Type: application/json" \
-            -d "{\"content\":\"$CONTENT\"}" \
-            https://discord.com/api/v10/channels/$CHANNEL_ID/messages/$MESSAGE_ID
+          -H "Authorization: Bot $BOT_TOKEN" \
+          -H "Content-Type: application/json" \
+          -d "{\"content\":\"$CONTENT\"}" \
+          https://discord.com/api/v10/channels/$CHANNEL_ID/messages/$MESSAGE_ID
+
 
