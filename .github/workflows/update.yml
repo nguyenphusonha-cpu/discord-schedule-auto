@@ -1,9 +1,9 @@
 name: Update Discord Schedule
 
 on:
+  workflow_dispatch:
   schedule:
     - cron: "0 0 */14 * *"
-  workflow_dispatch:
 
 jobs:
   update:
@@ -11,8 +11,6 @@ jobs:
 
     steps:
       - name: Send updated schedule
-        env:
-          WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
         run: |
           NOW=$(date +%s)
 
@@ -26,10 +24,8 @@ jobs:
 ID Teaser → <t:$TEASER:F>
 ID Trailer → <t:$TRAILER:F>
 ID Kit → <t:$KIT:F>
-ID Drop → <t:$DROP:F>
-
-NOTICE: Delays may happen."
+ID Drop → <t:$DROP:F>"
 
           curl -H "Content-Type: application/json" \
           -d "{\"content\":\"$MESSAGE\"}" \
-          $WEBHOOK_URL
+          "${{ secrets.WEBHOOK_URL }}"
