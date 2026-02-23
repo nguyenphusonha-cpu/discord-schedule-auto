@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Send Update
+      - name: Update Discord Message
         env:
           BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
           CHANNEL_ID: ${{ secrets.CHANNEL_ID }}
@@ -21,19 +21,13 @@ jobs:
           KIT=$((NOW+432000))
           DROP=$((NOW+604800))
 
-          CONTENT="**NEXT ID**
-
-ID Teaser → <t:${TEASER}:F>
-ID Trailer → <t:${TRAILER}:F>
-ID Kit → <t:${KIT}:F>
-ID Drop → <t:${DROP}:F>
-
-NOTICE: Delays can and has happened, can go from 10 minutes to an hour."
+          CONTENT=$(printf "**NEXT ID**\n\nID Teaser → <t:%s:F>\nID Trailer → <t:%s:F>\nID Kit → <t:%s:F>\nID Drop → <t:%s:F>\n\nNOTICE: Delays can and has happened, can go from 10 minutes to an hour." \
+          "$TEASER" "$TRAILER" "$KIT" "$DROP")
 
           curl -X PATCH \
-          -H "Authorization: Bot $BOT_TOKEN" \
-          -H "Content-Type: application/json" \
-          -d "{\"content\":\"$CONTENT\"}" \
-          https://discord.com/api/v10/channels/$CHANNEL_ID/messages/$MESSAGE_ID
+            -H "Authorization: Bot $BOT_TOKEN" \
+            -H "Content-Type: application/json" \
+            -d "{\"content\":\"$CONTENT\"}" \
+            https://discord.com/api/v10/channels/$CHANNEL_ID/messages/$MESSAGE_ID
 
 
