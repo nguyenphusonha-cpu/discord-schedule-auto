@@ -15,6 +15,7 @@ jobs:
           BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
           CHANNEL_ID: ${{ secrets.CHANNEL_ID }}
           MESSAGE_ID: ${{ secrets.MESSAGE_ID }}
+
         run: |
           NOW=$(date +%s)
 
@@ -23,14 +24,7 @@ jobs:
           KIT=$((NOW + 432000))
           DROP=$((NOW + 604800))
 
-          CONTENT="**NEXT ID**
-
-ID Teaser -> Date in your timezone: <t:${TEASER}:F>
-ID Trailer -> Date in your timezone: <t:${TRAILER}:F>
-ID Kit -> Date in your timezone: <t:${KIT}:F>
-ID Drop -> Date in your timezone: <t:${DROP}:F>
-
-**NOTICE:** Delays can and has happened, can go from 10 minutes to an hour."
+          CONTENT="**NEXT ID**\n\nID Teaser -> Date in your timezone: <t:${TEASER}:F>\nID Trailer -> Date in your timezone: <t:${TRAILER}:F>\nID Kit -> Date in your timezone: <t:${KIT}:F>\nID Drop -> Date in your timezone: <t:${DROP}:F>\n\n**NOTICE:** Delays can and has happened, can go from 10 minutes to an hour."
 
           curl -X PATCH \
             -H "Authorization: Bot $BOT_TOKEN" \
