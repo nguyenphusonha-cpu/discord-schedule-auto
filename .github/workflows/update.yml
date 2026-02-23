@@ -29,5 +29,3 @@ jobs:
             -H "Content-Type: application/json" \
             -d "{\"content\":\"$CONTENT\"}" \
             https://discord.com/api/v10/channels/$CHANNEL_ID/messages/$MESSAGE_ID
-
-
