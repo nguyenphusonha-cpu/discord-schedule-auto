@@ -3,7 +3,7 @@ name: Update NEXT ID
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 0 */1 * *" # runs every day
+    - cron: "0 */6 * * *"
 
 jobs:
   update:
@@ -23,17 +23,21 @@ jobs:
           KIT=$((NOW + 432000))
           DROP=$((NOW + 604800))
 
-          CONTENT="**NEXT ID**
+          CONTENT=$(cat <<EOF
+**NEXT ID**
 
-          ID Teaser → <t:${TEASER}:F>
-          ID Trailer → <t:${TRAILER}:F>
-          ID Kit → <t:${KIT}:F>
-          ID Drop → <t:${DROP}:F>"
+ID Teaser → <t:${TEASER}:F>
+ID Trailer → <t:${TRAILER}:F>
+ID Kit → <t:${KIT}:F>
+ID Drop → <t:${DROP}:F>
 
-          JSON=$(jq -n --arg content "$CONTENT" '{content:$content}')
+NOTICE: Delays can and has happened, can go from 10 minutes to an hour.
+EOF
+)
 
           curl -X PATCH \
             -H "Authorization: Bot $BOT_TOKEN" \
             -H "Content-Type: application/json" \
-            -d "$JSON" \
+            -d "{\"content\":\"$CONTENT\"}" \
             https://discord.com/api/v10/channels/$CHANNEL_ID/messages/$MESSAGE_ID
+
