@@ -27,12 +27,25 @@ jobs:
 
           CONTENT="**NEXT ID**
 
+        run: |
+          NOW=$(date +%s)
+
+          TEASER=$((NOW + 86400))
+          TRAILER=$((NOW + 259200))
+          KIT=$((NOW + 432000))
+          DROP=$((NOW + 604800))
+
+          CONTENT=$(cat <<EOF
+**NEXT ID**
+
 ID Teaser -> Date in your timezone: <t:${TEASER}:F>
 ID Trailer -> Date in your timezone: <t:${TRAILER}:F>
 ID Kit -> Date in your timezone: <t:${KIT}:F>
 ID Drop -> Date in your timezone: <t:${DROP}:F>
 
-**NOTICE:** Delays can and has happened, can go from 10 minutes to an hour."
+**NOTICE:** Delays can and has happened, can go from 10 minutes to an hour.
+EOF
+)
 
           curl -X PATCH \
           -H "Authorization: Bot $BOT_TOKEN" \
