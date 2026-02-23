@@ -1,0 +1,35 @@
+name: Update Discord Schedule
+
+on:
+  schedule:
+    - cron: "0 0 */14 * *"
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Send updated schedule
+        env:
+          WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
+        run: |
+          NOW=$(date +%s)
+
+          TEASER=$((NOW + 86400))
+          TRAILER=$((NOW + 259200))
+          KIT=$((NOW + 432000))
+          DROP=$((NOW + 604800))
+
+          MESSAGE="**NEXT ID**
+
+ID Teaser → <t:$TEASER:F>
+ID Trailer → <t:$TRAILER:F>
+ID Kit → <t:$KIT:F>
+ID Drop → <t:$DROP:F>
+
+NOTICE: Delays may happen."
+
+          curl -H "Content-Type: application/json" \
+          -d "{\"content\":\"$MESSAGE\"}" \
+          $WEBHOOK_URL
