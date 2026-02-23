@@ -15,17 +15,6 @@ jobs:
           BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
           CHANNEL_ID: ${{ secrets.CHANNEL_ID }}
           MESSAGE_ID: ${{ secrets.MESSAGE_ID }}
-        run: |
-
-          NOW=$(date +%s)
-
-          # move schedule forward automatically
-          TEASER=$((NOW + 86400))
-          TRAILER=$((NOW + 259200))
-          KIT=$((NOW + 432000))
-          DROP=$((NOW + 604800))
-
-          CONTENT="**NEXT ID**
 
         run: |
           NOW=$(date +%s)
