@@ -11,6 +11,8 @@ jobs:
 
     steps:
       - name: Send updated schedule
+        env:
+          WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
         run: |
           NOW=$(date +%s)
 
@@ -19,13 +21,8 @@ jobs:
           KIT=$((NOW + 432000))
           DROP=$((NOW + 604800))
 
-          MESSAGE="**NEXT ID**
-
-ID Teaser → <t:$TEASER:F>
-ID Trailer → <t:$TRAILER:F>
-ID Kit → <t:$KIT:F>
-ID Drop → <t:$DROP:F>"
-
           curl -H "Content-Type: application/json" \
-          -d "{\"content\":\"$MESSAGE\"}" \
-          "${{ secrets.WEBHOOK_URL }}"
+          -d "{
+          \"content\":\"**NEXT ID**\n\nID Teaser → <t:${TEASER}:F>\nID Trailer → <t:${TRAILER}:F>\nID Kit → <t:${KIT}:F>\nID Drop → <t:${DROP}:F>\"
+          }" \
+          $WEBHOOK_URL
