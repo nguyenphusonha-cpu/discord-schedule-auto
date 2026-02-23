@@ -28,5 +28,6 @@ jobs:
 curl -X POST \
   -H "Authorization: Bot $BOT_TOKEN" \
   -H "Content-Type: application/json" \
-  -d "{\"content\":\"NEXT ID initializing...\"}" \
+  -d '{"content":"NEXT ID initializing..."}' \
   https://discord.com/api/v10/channels/$CHANNEL_ID/messages
+
